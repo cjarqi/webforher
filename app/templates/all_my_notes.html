@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All My Notes - For You</title>
     
-    <!-- Google Fonts to match the main page -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
@@ -38,7 +37,6 @@
             margin: 0 0 30px 0;
         }
         .note {
-            /* Using the blue theme for "My Notes" */
             border-left: 4px solid #B2D6FF;
             background-color: #F0F8FF;
             padding: 20px;
@@ -96,7 +94,8 @@
             <p class="empty-message">No notes from me yet.</p>
         {% endif %}
 
-        <a href="{{ url_for('index') }}" class="back-link">← Back to the main page</a>
+        <!-- ACTION: UPDATED url_for -->
+        <a href="{{ url_for('main.index') }}" class="back-link">← Back to the main page</a>
     </div>
 </body>
 </html>

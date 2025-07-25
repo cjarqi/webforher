@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You</title>
+    <title>Angel <3 </title>
     
-    <!-- Google Fonts for better typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
@@ -20,13 +19,13 @@
         <div class="coquette-menu">
             <div class="menu-icon">୨୧</div>
             <div class="menu-dropdown">
-                <a href="#" class="menu-item disabled">we're not official yet bro so u can't access this</a>
-                <a href="#" class="menu-item disabled">we're not official yet bro so u can't access this</a>
+                <a href="#" class="menu-item disabled">we're not official yet so u can't access this</a>
+                <a href="#" class="menu-item disabled">we're not official yet so u can't access this</a>
             </div>
         </div>
 
         <div class="sticker notice-card">
-            <p><strong>To:</strong> Pretty gelaa</p>
+            <p><strong>To:</strong> Angel </p>
             <p><strong>From:</strong> Cj </p>
         </div>
 
@@ -38,7 +37,8 @@
             <h4>
                 My Notes For You
                 {% if note_count > 4 %}
-                    <a href="{{ url_for('all_notes_for_her') }}" class="view-all-link">View All →</a>
+                    <!-- ACTION 1: UPDATED url_for -->
+                    <a href="{{ url_for('main.all_notes_for_her') }}" class="view-all-link">View All →</a>
                 {% endif %}
             </h4>
             {% for note in my_notes %}
@@ -53,11 +53,13 @@
         </div>
         
         <div class="sticker add-note-card">
-            <h3>Add a sweet note ♡</h3>
-            <form action="{{ url_for('index') }}" method="POST">
+            <h3>Do you want to say something, sweetheart? (I'm the only one who can see your messages/notes)
+            </h3>
+            <!-- ACTION 2: UPDATED url_for -->
+            <form action="{{ url_for('main.index') }}" method="POST">
                 <input type="hidden" name="author" value="Angel">
                 <textarea name="message" placeholder="Write something here..." required></textarea>
-                <button type="submit">Add Your Note</button>
+                <button type="submit">Add Your Note/Message</button>
             </form>
         </div>
 

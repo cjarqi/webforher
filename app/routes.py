@@ -1,20 +1,13 @@
-# app.py
+# app/routes.py
 
-from flask import Flask, render_template, request, redirect, url_for
-import flask_mysql_connector
+from flask import Blueprint, render_template, request, redirect, url_for
+from app import mysql  # Import the mysql object from the __init__.py
 
-app = Flask(__name__)
+# Create a Blueprint, which is a way to organize a group of related views
+bp = Blueprint('main', __name__)
 
-# --- IMPORTANT: DATABASE CONFIGURATION ---
-# Replace the placeholder values with your actual MySQL credentials.
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'cjarqi'
-app.config['MYSQL_DATABASE'] = 'gift_website'
 
-mysql = flask_mysql_connector.MySQL(app)
-
-@app.route('/', methods=['GET', 'POST'])
+@bp.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         author = request.form['author']
@@ -24,7 +17,7 @@ def index():
         cursor.execute("INSERT INTO notes (author, message) VALUES (%s, %s)", (author, message))
         conn.commit()
         cursor.close()
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
 
     conn = mysql.connection
     cursor = conn.cursor(dictionary=True)
@@ -39,7 +32,7 @@ def index():
     return render_template('index.html', my_notes=my_notes, note_count=note_count)
 
 
-@app.route('/secret-notes', methods=['GET', 'POST'])
+@bp.route('/secret-notes', methods=['GET', 'POST'])
 def view_her_notes():
     if request.method == 'POST':
         author = request.form['author']
@@ -49,7 +42,7 @@ def view_her_notes():
         cursor.execute("INSERT INTO notes (author, message) VALUES (%s, %s)", (author, message))
         conn.commit()
         cursor.close()
-        return redirect(url_for('view_her_notes'))
+        return redirect(url_for('main.view_her_notes'))
 
     conn = mysql.connection
     cursor = conn.cursor(dictionary=True)
@@ -61,7 +54,7 @@ def view_her_notes():
     return render_template('her_notes.html', her_notes=her_notes, my_notes=my_notes)
 
 
-@app.route('/my-notes')
+@bp.route('/my-notes')
 def all_notes_for_her():
     conn = mysql.connection
     cursor = conn.cursor(dictionary=True)
@@ -69,7 +62,3 @@ def all_notes_for_her():
     my_notes = cursor.fetchall()
     cursor.close()
     return render_template('all_my_notes.html', my_notes=my_notes)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)

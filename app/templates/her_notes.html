@@ -125,7 +125,8 @@
         <div class="form-column">
             <h1>Add My Note</h1>
             <p>Notes added here will appear on the main page for her.</p>
-            <form action="{{ url_for('view_her_notes') }}" method="POST">
+            <!-- ACTION: UPDATED url_for -->
+            <form action="{{ url_for('main.view_her_notes') }}" method="POST">
                 <input type="hidden" name="author" value="Cj">
                 <textarea name="message" placeholder="Write a new note for her..." required></textarea>
                 <button type="submit">Add Note to Main Page</button>
