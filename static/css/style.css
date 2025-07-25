@@ -1,0 +1,215 @@
+/* static/css/style.css */
+
+/* =================================================== */
+/* ================== BASE STYLES ==================== */
+/* =================================================== */
+body {
+    font-family: 'Lato', 'Helvetica Neue', sans-serif;
+    background-color: #FBF9F6;
+    color: #5D5552;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 50px 20px;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.page-container {
+    width: 100%;
+    max-width: 1000px;
+    height: 1200px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 40px rgba(188, 172, 164, 0.2);
+    border: 1px solid #F3EAE4;
+    border-radius: 8px;
+    position: relative;
+    padding: 25px;
+    overflow: hidden; 
+}
+
+/* =================================================== */
+/* ================= STICKER & MENU STYLES =========== */
+/* =================================================== */
+
+.coquette-menu {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    z-index: 20; /* Keep it above all other stickers */
+}
+.menu-icon {
+    font-size: 36px;
+    color: #C9A9A6;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s;
+}
+.menu-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #FEFBF3;
+    border: 1px solid #EAE3D9;
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(93, 85, 82, 0.1);
+    width: 160px;
+    padding: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+.coquette-menu:hover .menu-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.menu-item {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #5D5552;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.2s, color 0.2s;
+}
+.menu-item:hover {
+    background-color: #F9F2F5;
+    color: #3E3532;
+}
+.menu-item.disabled {
+    color: #b0a6a3;
+    cursor: not-allowed;
+    background-color: transparent !important;
+}
+
+.sticker {
+    position: absolute;
+    padding: 22px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(93, 85, 82, 0.1);
+    transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.35s ease;
+}
+.sticker:hover {
+    transform: scale(1.04) rotate(var(--hover-rotate, 0deg)) !important; 
+    box-shadow: 0 10px 30px rgba(93, 85, 82, 0.18);
+    z-index: 10;
+}
+.notice-card {
+    top: 40px; left: 40px; transform: rotate(-4deg);
+    background-color: #FEFBF3;
+    border: 1px dashed #EAE3D9;
+    padding: 20px;
+    z-index: 2;
+}
+.photo-card {
+    top: 200px; left: 280px; transform: rotate(2deg);
+    padding: 15px; background-color: white;
+    box-shadow: 0 10px 30px rgba(93, 85, 82, 0.15);
+    z-index: 1;
+}
+.photo-card img { width: 450px; border-radius: 4px; display: block; }
+.my-notes-section {
+    width: 280px;
+    top: 170px; left: 580px; transform: rotate(5deg);
+    background-color: #F9F2F5;
+    border-top: 4px solid #E8D9DF;
+    z-index: 2;
+    --hover-rotate: 4deg;
+}
+.music-card { 
+    top: 750px; left: 100px; transform: rotate(-3deg); 
+    width: 320px; padding: 15px;
+    background-color: #FAFAFA;
+    z-index: 2;
+    --hover-rotate: -2deg;
+}
+.add-note-card {
+    top: 700px; left: 550px; transform: rotate(2.5deg);
+    width: 320px;
+    background-color: #F3F9F2;
+    border-top: 4px solid #D9E8D9;
+    z-index: 2;
+    --hover-rotate: 1.5deg;
+}
+h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px; color: #3E3532;
+    margin: 0 0 15px 0; border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 12px;
+    position: relative; 
+}
+.view-all-link {
+    position: absolute;
+    top: 0; right: 0;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px; font-weight: normal;
+    text-decoration: none;
+    color: #83726d;
+    transition: color 0.2s;
+}
+.view-all-link:hover { color: #d16b93; }
+.note-item {
+    padding: 14px; margin-top: 10px; border-radius: 6px;
+    line-height: 1.6; font-size: 15px;
+    background-color: #fff;
+    border: 1px solid #F1F1F1;
+}
+.empty-note-message {
+    font-style: italic; color: #999;
+    padding: 10px;
+}
+.add-note-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500; text-align: center; color: #3E3532;
+    margin: 0 0 15px 0;
+}
+.add-note-card textarea {
+    width: 100%; height: 80px;
+    border: 1px solid #e5e5e5; border-radius: 6px; padding: 12px;
+    font-family: 'Lato', sans-serif; font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.add-note-card textarea:focus {
+    outline: none; border-color: #B2D6FF;
+    box-shadow: 0 0 0 3px rgba(178, 214, 255, 0.4);
+}
+.add-note-card button {
+    width: 100%; padding: 14px;
+    border: none; background-color: #4B423F; color: white;
+    font-weight: bold; font-size: 15px; letter-spacing: 0.5px;
+    border-radius: 6px; cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+.add-note-card button:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+}
+
+/* =================================================== */
+/* ============== MOBILE RESPONSIVE STYLES =========== */
+/* =================================================== */
+@media (max-width: 768px) {
+    body { padding: 0; }
+    .page-container {
+        height: auto; padding: 15px;
+        border-radius: 0; max-width: 100%;
+        box-shadow: none;
+    }
+    .sticker, .coquette-menu {
+        position: static;
+        transform: none !important;
+        width: 100%;
+        margin: 0 auto 25px auto;
+        box-sizing: border-box;
+    }
+    .coquette-menu {
+        text-align: right;
+    }
+    .photo-card img { width: 100%; }
+    .music-card, .my-notes-section, .add-note-card { width: 100%; }
+    .sticker:hover { transform: none !important; }
+}

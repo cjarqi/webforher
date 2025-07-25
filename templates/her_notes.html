@@ -1,0 +1,136 @@
+<!-- templates/her_notes.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Notes - Private View</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            font-family: 'Lato', sans-serif; 
+            background-color: #FBF9F6; 
+            color: #5D5552;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        .main-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .notes-column, .form-column {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 8px 40px rgba(188, 172, 164, 0.2);
+            border: 1px solid #F3EAE4;
+        }
+        .notes-column { flex-basis: 60%; }
+        .form-column { flex-basis: 40%; height: fit-content; }
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            color: #3E3532;
+        }
+        h1 {
+            font-size: 36px; margin: 0 0 30px 0;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+        h2 {
+            font-size: 28px; margin: 40px 0 20px 0;
+            text-align: left;
+        }
+        .note {
+            padding: 20px; margin-bottom: 20px;
+            border-radius: 8px;
+            transition: box-shadow 0.2s ease-out;
+        }
+        .note:hover { box-shadow: 0 4px 15px rgba(93, 85, 82, 0.08); }
+        .her-note { border-left: 4px solid #E8D9DF; background-color: #F9F2F5; }
+        .my-note { border-left: 4px solid #B2D6FF; background-color: #F0F8FF; }
+        .note .timestamp {
+            font-size: 13px; color: #A9999F;
+            display: block; margin-top: 15px;
+            text-align: right; font-style: italic;
+        }
+        .note .message { font-size: 18px; line-height: 1.6; }
+        .empty-message {
+            text-align: center; color: #777;
+            padding: 50px; font-size: 18px;
+            font-style: italic;
+        }
+        .form-column textarea {
+            width: 100%; height: 100px;
+            border: 1px solid #e5e5e5; border-radius: 6px; padding: 12px;
+            font-family: 'Lato', sans-serif; font-size: 15px;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-column textarea:focus {
+            outline: none; border-color: #B2D6FF;
+            box-shadow: 0 0 0 3px rgba(178, 214, 255, 0.4);
+        }
+        .form-column button {
+            width: 100%; padding: 14px;
+            border: none; background-color: #4B423F; color: white;
+            font-weight: bold; font-size: 15px; letter-spacing: 0.5px;
+            border-radius: 6px; cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .form-column button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="notes-column">
+            <h1>All Notes Overview</h1>
+            
+            <h2>Her Notes</h2>
+            {% if her_notes %}
+                {% for note in her_notes %}
+                    <div class="note her-note">
+                        <p class="message">{{ note.message }}</p>
+                        <span class="timestamp">Written on: {{ note.created_at.strftime('%B %d, %Y at %I:%M %p') }}</span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="empty-message">No notes from her yet.</p>
+            {% endif %}
+
+            <h2>My Notes</h2>
+            {% if my_notes %}
+                {% for note in my_notes %}
+                    <div class="note my-note">
+                        <p class="message">{{ note.message }}</p>
+                        <span class="timestamp">Written on: {{ note.created_at.strftime('%B %d, %Y at %I:%M %p') }}</span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="empty-message">No notes from you yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="form-column">
+            <h1>Add My Note</h1>
+            <p>Notes added here will appear on the main page for her.</p>
+            <form action="{{ url_for('view_her_notes') }}" method="POST">
+                <input type="hidden" name="author" value="Cj">
+                <textarea name="message" placeholder="Write a new note for her..." required></textarea>
+                <button type="submit">Add Note to Main Page</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

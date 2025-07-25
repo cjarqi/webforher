@@ -1,0 +1,67 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    
+    <!-- Google Fonts for better typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="page-container">
+        
+        <div class="coquette-menu">
+            <div class="menu-icon">୨୧</div>
+            <div class="menu-dropdown">
+                <a href="#" class="menu-item disabled">we're not official yet bro so u can't access this</a>
+                <a href="#" class="menu-item disabled">we're not official yet bro so u can't access this</a>
+            </div>
+        </div>
+
+        <div class="sticker notice-card">
+            <p><strong>To:</strong> Pretty gelaa</p>
+            <p><strong>From:</strong> Cj </p>
+        </div>
+
+        <div class="sticker photo-card">
+            <img src="{{ url_for('static', filename='images/angel.jpg') }}" alt="A beautiful photo of you">
+        </div>
+
+        <div class="sticker my-notes-section">
+            <h4>
+                My Notes For You
+                {% if note_count > 4 %}
+                    <a href="{{ url_for('all_notes_for_her') }}" class="view-all-link">View All →</a>
+                {% endif %}
+            </h4>
+            {% for note in my_notes %}
+                <div class="note-item">{{ note.message }}</div>
+            {% else %}
+                <p class="empty-note-message">No notes from me yet!</p>
+            {% endfor %}
+        </div>
+        
+        <div class="sticker music-card">
+            <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0TBW77FnpOMXQSvZFJOBJX?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+        
+        <div class="sticker add-note-card">
+            <h3>Add a sweet note ♡</h3>
+            <form action="{{ url_for('index') }}" method="POST">
+                <input type="hidden" name="author" value="Angel">
+                <textarea name="message" placeholder="Write something here..." required></textarea>
+                <button type="submit">Add Your Note</button>
+            </form>
+        </div>
+
+    </div>
+
+</body>
+</html>
