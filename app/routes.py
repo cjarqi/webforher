@@ -1,9 +1,9 @@
 # app/routes.py
 
 from flask import Blueprint, render_template, request, redirect, url_for
-from app import mysql  # Import the mysql object from the __init__.py
+from app import db  # Import the db object
+from sqlalchemy import text # To execute raw SQL safely
 
-# Create a Blueprint, which is a way to organize a group of related views
 bp = Blueprint('main', __name__)
 
 
@@ -12,24 +12,23 @@ def index():
     if request.method == 'POST':
         author = request.form['author']
         message = request.form['message']
-        conn = mysql.connection
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO notes (author, message) VALUES (%s, %s)", (author, message))
-        conn.commit()
-        cursor.close()
+        
+        # SQLAlchemy handles the connection for us
+        sql = text("INSERT INTO notes (author, message) VALUES (:author, :message)")
+        db.session.execute(sql, {"author": author, "message": message})
+        db.session.commit()
+        
         return redirect(url_for('main.index'))
 
-    conn = mysql.connection
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM notes WHERE author = %s ORDER BY created_at DESC LIMIT 4", ('Cj',))
-    my_notes = cursor.fetchall()
-    
-    cursor.execute("SELECT COUNT(id) AS note_count FROM notes WHERE author = %s", ('Cj',))
-    note_count = cursor.fetchone()['note_count']
+    # Execute a query to get your notes
+    sql_my_notes = text("SELECT * FROM notes WHERE author = :author ORDER BY created_at DESC LIMIT 4")
+    my_notes_result = db.session.execute(sql_my_notes, {"author": "Cj"}).mappings().all()
 
-    cursor.close()
+    # Execute a query to get the total count
+    sql_count = text("SELECT COUNT(id) AS note_count FROM notes WHERE author = :author")
+    note_count = db.session.execute(sql_count, {"author": "Cj"}).scalar_one()
 
-    return render_template('index.html', my_notes=my_notes, note_count=note_count)
+    return render_template('index.html', my_notes=my_notes_result, note_count=note_count)
 
 
 @bp.route('/secret-notes', methods=['GET', 'POST'])
@@ -37,28 +36,27 @@ def view_her_notes():
     if request.method == 'POST':
         author = request.form['author']
         message = request.form['message']
-        conn = mysql.connection
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO notes (author, message) VALUES (%s, %s)", (author, message))
-        conn.commit()
-        cursor.close()
+        
+        sql = text("INSERT INTO notes (author, message) VALUES (:author, :message)")
+        db.session.execute(sql, {"author": author, "message": message})
+        db.session.commit()
+        
         return redirect(url_for('main.view_her_notes'))
 
-    conn = mysql.connection
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM notes WHERE author = %s ORDER BY created_at DESC", ('Angel',))
-    her_notes = cursor.fetchall()
-    cursor.execute("SELECT * FROM notes WHERE author = %s ORDER BY created_at DESC", ('Cj',))
-    my_notes = cursor.fetchall()
-    cursor.close()
+    # Fetch her notes
+    sql_her_notes = text("SELECT * FROM notes WHERE author = :author ORDER BY created_at DESC")
+    her_notes = db.session.execute(sql_her_notes, {"author": "Angel"}).mappings().all()
+    
+    # Fetch your notes
+    sql_my_notes = text("SELECT * FROM notes WHERE author = :author ORDER BY created_at DESC")
+    my_notes = db.session.execute(sql_my_notes, {"author": "Cj"}).mappings().all()
+
     return render_template('her_notes.html', her_notes=her_notes, my_notes=my_notes)
 
 
 @bp.route('/my-notes')
 def all_notes_for_her():
-    conn = mysql.connection
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM notes WHERE author = %s ORDER BY created_at DESC", ('Cj',))
-    my_notes = cursor.fetchall()
-    cursor.close()
+    sql_my_notes = text("SELECT * FROM notes WHERE author = :author ORDER BY created_at DESC")
+    my_notes = db.session.execute(sql_my_notes, {"author": "Cj"}).mappings().all()
+    
     return render_template('all_my_notes.html', my_notes=my_notes)
